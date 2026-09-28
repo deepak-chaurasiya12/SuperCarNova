@@ -1,0 +1,211 @@
+.filter-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+
+  padding: 24px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+
+  height: fit-content;
+}
+
+
+/* Header */
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.filter-header h3 {
+  margin: 0;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  color: #111111;
+
+  text-transform: capitalize;
+}
+
+.filter-header button {
+  border: none;
+
+  background: transparent;
+
+  color: #d49b00;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.filter-header button:hover {
+  text-decoration: underline;
+}
+
+
+/* Filter Group */
+
+.filter-group {
+  padding: 22px 0;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.filter-group:last-child {
+  border-bottom: none;
+}
+
+.filter-group h4 {
+  margin: 0 0 14px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  color: #222222;
+}
+
+
+/* Options */
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+
+  gap: 11px;
+}
+
+.filter-checkbox,
+.filter-radio {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 14px;
+
+  color: #555555;
+
+  cursor: pointer;
+}
+
+.filter-checkbox input,
+.filter-radio input {
+  width: 16px;
+  height: 16px;
+
+  accent-color: #f5b921;
+
+  cursor: pointer;
+}
+
+.filter-checkbox:hover span,
+.filter-radio:hover span {
+  color: #111111;
+}
+
+
+/* Select */
+
+.filter-group select {
+  width: 100%;
+
+  height: 42px;
+
+  padding: 0 12px;
+
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+
+  background: #ffffff;
+
+  color: #333333;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  cursor: pointer;
+}
+
+.filter-group select:focus {
+  border-color: #f5b921;
+}
+
+
+/* Price */
+
+.price-inputs {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.price-input {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+
+  height: 42px;
+
+  padding: 0 10px;
+
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+
+  background: #ffffff;
+}
+
+.price-input span {
+  font-size: 13px;
+  color: #777777;
+}
+
+.price-input input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  padding-left: 5px;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  color: #222222;
+}
+
+.price-input input::placeholder {
+  color: #aaaaaa;
+}
+
+.price-separator {
+  color: #888888;
+  font-size: 13px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 900px) {
+
+  .filter-sidebar {
+    width: 100%;
+  }
+
+}

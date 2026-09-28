@@ -1,0 +1,547 @@
+/* =========================================
+   SEARCH CARS PAGE
+========================================= */
+
+.search-cars-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #f7f7f7;
+}
+
+
+/* =========================================
+   SEARCH HERO
+========================================= */
+
+.search-hero {
+  width: 100%;
+  min-height: 440px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 80px 30px;
+
+  box-sizing: border-box;
+
+  position: relative;
+
+  background:
+    linear-gradient(
+      135deg,
+      #080808 0%,
+      #151515 50%,
+      #080808 100%
+    );
+
+  overflow: hidden;
+}
+
+
+/* Subtle background effect */
+
+.search-hero::before {
+  content: "";
+
+  position: absolute;
+
+  width: 500px;
+  height: 500px;
+
+  top: -250px;
+  right: -150px;
+
+  border-radius: 50%;
+
+  background: rgba(245, 185, 33, 0.08);
+
+  filter: blur(20px);
+}
+
+
+/* Hero Content */
+
+.search-hero-content {
+  width: 100%;
+  max-width: 1100px;
+
+  text-align: center;
+
+  position: relative;
+  z-index: 1;
+
+  color: #ffffff;
+}
+
+
+/* =========================================
+   EYEBROW
+========================================= */
+
+.search-eyebrow {
+  display: block;
+
+  margin-bottom: 18px;
+
+  color: #f5b921;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================
+   HERO HEADING
+========================================= */
+
+.search-hero h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(42px, 5vw, 68px);
+
+  line-height: 1.05;
+
+  font-weight: 800;
+
+  letter-spacing: -2px;
+}
+
+
+/* =========================================
+   HERO DESCRIPTION
+========================================= */
+
+.search-hero p {
+  max-width: 620px;
+
+  margin: 22px auto 38px;
+
+  color: #b9b9bf;
+
+  font-size: 17px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================
+   CARS SECTION
+========================================= */
+
+.cars-section {
+  width: 100%;
+
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 70px 40px 100px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   SECTION HEADER
+========================================= */
+
+.cars-section-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-end;
+
+  margin-bottom: 40px;
+}
+
+
+/* Small label */
+
+.section-label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #d89d0b;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+
+/* Available Cars heading */
+
+.cars-section-header h2 {
+  margin: 0;
+
+  color: #111111;
+
+  font-size: 38px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  letter-spacing: -0.5px;
+}
+
+
+/* =========================================
+   SORT CONTAINER
+========================================= */
+
+.sort-container {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+
+.sort-container label {
+  color: #666666;
+
+  font-size: 14px;
+
+  font-weight: 500;
+}
+
+
+/* Select */
+
+.sort-container select {
+  min-width: 190px;
+
+  padding: 12px 15px;
+
+  border: 1px solid #dddddd;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #222222;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.sort-container select:hover {
+  border-color: #d89d0b;
+}
+
+
+.sort-container select:focus {
+  border-color: #d89d0b;
+
+  box-shadow: 0 0 0 3px rgba(216, 157, 11, 0.12);
+}
+
+
+/* =========================================
+   FILTER + CAR GRID
+========================================= */
+
+.cars-layout {
+  display: grid;
+
+  grid-template-columns: 270px minmax(0, 1fr);
+
+  gap: 35px;
+
+  align-items: start;
+}
+
+
+/* =========================================
+   FILTER SIDEBAR
+   Temporary placeholder
+========================================= */
+
+.filter-placeholder {
+  min-height: 500px;
+
+  padding: 25px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #e7e7e7;
+
+  border-radius: 10px;
+
+  color: #777777;
+
+  font-size: 15px;
+
+  box-shadow:
+    0 5px 20px rgba(0, 0, 0, 0.04);
+}
+
+
+/* =========================================
+   CAR GRID
+========================================= */
+
+.cars-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(
+    2,
+    minmax(0, 1fr)
+  );
+
+  gap: 25px;
+}
+
+/* ==========================================
+   PAGINATION
+========================================== */
+
+.pagination {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-button,
+.pagination-page {
+  min-width: 42px;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #333333;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.pagination-button:hover:not(:disabled),
+.pagination-page:hover {
+  background: #f5b921;
+  border-color: #f5b921;
+  color: #111111;
+}
+
+.pagination-page.active {
+  background: #f5b921;
+  border-color: #f5b921;
+  color: #111111;
+}
+
+.pagination-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .pagination {
+    gap: 8px;
+  }
+
+  .pagination-button,
+  .pagination-page {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .pagination-pages {
+    gap: 5px;
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE — TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+  .cars-section {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .cars-layout {
+    grid-template-columns: 230px minmax(0, 1fr);
+
+    gap: 25px;
+  }
+
+}
+
+
+@media (max-width: 900px) {
+
+  .cars-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =========================================
+   RESPONSIVE — MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .search-hero {
+    min-height: 400px;
+
+    padding: 60px 20px;
+  }
+
+
+  .search-hero h1 {
+    letter-spacing: -1px;
+  }
+
+
+  .search-hero p {
+    font-size: 16px;
+
+    margin-bottom: 30px;
+  }
+
+
+  .cars-section {
+    padding: 50px 20px 70px;
+  }
+
+
+  .cars-section-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 25px;
+  }
+
+
+  .cars-section-header h2 {
+    font-size: 34px;
+  }
+
+
+  .cars-layout {
+    grid-template-columns: 1fr;
+  }
+
+
+  .filter-placeholder {
+    min-height: 100px;
+  }
+
+
+  .cars-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =========================================
+   RESPONSIVE — SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .search-hero {
+    min-height: 380px;
+
+    padding: 50px 15px;
+  }
+
+
+  .search-eyebrow {
+    font-size: 11px;
+
+    letter-spacing: 2px;
+  }
+
+
+  .search-hero h1 {
+    font-size: 40px;
+  }
+
+
+  .search-hero p {
+    font-size: 15px;
+
+    line-height: 1.6;
+  }
+
+
+  .cars-section {
+    padding: 45px 15px 60px;
+  }
+
+
+  .cars-section-header h2 {
+    font-size: 30px;
+  }
+
+
+  .sort-container {
+    width: 100%;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 8px;
+  }
+
+
+  .sort-container select {
+    width: 100%;
+  }
+
+}
