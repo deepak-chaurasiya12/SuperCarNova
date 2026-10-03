@@ -9,6 +9,9 @@ const app = express();
 
 const connectDB = require("./config/db");
 
+const contactRoutes = require("./routes/contactRoutes");       // Import contact routes
+const searchCarRoutes = require("./routes/searchCarRoutes");   // Import search car routes
+
 // Port
 const PORT = process.env.PORT || 5000;
 
@@ -28,6 +31,11 @@ app.use(cors());
 app.use(express.json());
 // Allow URL-encoded request bodies
 app.use(express.urlencoded({ extended: true }));
+  
+// API routes-----
+
+app.use("/api/contact", contactRoutes);       // Use contact routes
+app.use("/api/search", searchCarRoutes);      // Use search car routes
 
 // --------------------
 // Test Route

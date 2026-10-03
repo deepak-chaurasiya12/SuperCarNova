@@ -20,6 +20,10 @@ const Contact = () => {
     message: "",
   });
 
+  // ==============================
+  // HANDLE INPUT CHANGES
+  // ==============================
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -29,20 +33,75 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // ==============================
+  // SUBMIT CONTACT FORM
+  // ==============================
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Contact Form Data:", formData);
+    try {
+      // Send form data to Node.js backend
+      const response = await fetch(
+        "http://localhost:5000/api/contact",
+        {
+          method: "POST",
 
-    alert("Thank you! Your message has been submitted.");
+          headers: {
+            "Content-Type": "application/json",
+          },
 
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
-    });
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      // ==============================
+      // SUCCESS
+      // ==============================
+
+      if (response.ok) {
+        alert(
+          "Thank you! Your message has been submitted successfully."
+        );
+
+        // Clear form after successful submission
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+      }
+
+      // ==============================
+      // BACKEND ERROR
+      // ==============================
+
+      else {
+        alert(
+          data.message ||
+            "Failed to submit your message."
+        );
+      }
+    }
+
+    // ==============================
+    // SERVER CONNECTION ERROR
+    // ==============================
+
+    catch (error) {
+      console.error(
+        "Contact form error:",
+        error
+      );
+
+      alert(
+        "Unable to connect to the server. Please try again."
+      );
+    }
   };
 
   return (
@@ -222,12 +281,16 @@ const Contact = () => {
                 <FaEnvelope />
 
                 <div>
-                  <strong>Quick Response</strong>
+
+                  <strong>
+                    Quick Response
+                  </strong>
 
                   <span>
                     Our team will review your message and get back
                     to you shortly.
                   </span>
+
                 </div>
 
               </div>
@@ -345,8 +408,9 @@ const Contact = () => {
 
 
               <button
-                type="submit"
+                type="button"
                 className="contact-submit-button"
+                 onClick={handleSubmit}
               >
                 Send Message
               </button>
