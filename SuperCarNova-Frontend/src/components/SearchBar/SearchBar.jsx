@@ -1,9 +1,10 @@
 import "./SearchBar.css";
 
-function SearchBar({ searchTerm, setSearchTerm }) {
+function SearchBar({ searchTerm, setSearchTerm, onSearch }) {
 
   const handleSearch = () => {
     setSearchTerm(searchTerm.trim());
+    onSearch();
   };
 
   const handleKeyDown = (event) => {

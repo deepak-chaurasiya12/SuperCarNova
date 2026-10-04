@@ -31,7 +31,34 @@ function SearchCars() {
     bodyType: "",
     rating: "",
   });
+  const saveSearchToDatabase = async () => {
+  try {
+    const response = await fetch("http://localhost:5000/api/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        brand: filters.brand.join(", "),
+        model: searchTerm,
+        minPrice: filters.minPrice || null,
+        maxPrice: filters.maxPrice || null,
+        fuelType: filters.fuel || "",
+        transmission: filters.transmission || "",
+      }),
+    });
 
+      const data = await response.json();
+
+      if (response.ok) {
+      console.log("Search saved successfully:", data);
+     } else {
+      console.error("Failed to save search:", data.message);
+     }
+     } catch (error) {
+    console.error("Search database error:", error);
+     }
+    };
 
   // ==========================================
   // SORT STATE
@@ -234,6 +261,7 @@ function SearchCars() {
           <SearchBar
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
+            onSearch={saveSearchToDatabase}
           />
 
         </div>
