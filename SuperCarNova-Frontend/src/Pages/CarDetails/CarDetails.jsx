@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 import {
@@ -15,7 +16,8 @@ import {
 import Navbar from "../../components/Navbar/Nav";
 import Footer from "../../components/Footer/Footer";
 
-import cars from "../../data/cars";
+import { getCarById, getSimilarCars } from "../../services/carsApi";
+import { getCarImage } from "../../utils/getCarImage";
 
 import "./CarDetails.css";
 
@@ -24,9 +26,86 @@ function CarDetails() {
 
   const { id } = useParams();
 
-  const car = cars.find(
-    (item) => item.id === Number(id)
-  );
+  const [car, setCar] = useState(null);
+  const [similarCars, setSimilarCars] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+
+  /* Load the car and its similar cars from the API */
+  useEffect(() => {
+
+    let ignore = false;
+
+    const loadCar = async () => {
+
+      setLoading(true);
+      setError("");
+
+      try {
+
+        const [carResponse, similarResponse] = await Promise.all([
+          getCarById(id),
+          getSimilarCars(id).catch(() => ({ data: [] })),
+        ]);
+
+        if (!ignore) {
+          setCar(carResponse.data);
+          setSimilarCars(similarResponse.data);
+        }
+
+      } catch (err) {
+
+        if (!ignore) {
+          setCar(null);
+          setSimilarCars([]);
+          setError(err.message);
+        }
+
+      } finally {
+
+        if (!ignore) {
+          setLoading(false);
+        }
+
+      }
+    };
+
+    loadCar();
+
+    // Go back to the top when another car is opened
+    window.scrollTo(0, 0);
+
+    // Prevents state updates if the user leaves the page mid-request
+    return () => {
+      ignore = true;
+    };
+
+  }, [id]);
+
+
+  /* Loading */
+  if (loading) {
+    return (
+
+      <div className="car-not-found">
+
+        <Navbar />
+
+        <div className="not-found-content">
+
+          <h1>
+            Loading...
+          </h1>
+
+        </div>
+
+        <Footer />
+
+      </div>
+
+    );
+  }
 
 
   /* Car not found */
@@ -44,7 +123,7 @@ function CarDetails() {
           </h1>
 
           <p>
-            The car you are looking for does not exist.
+            {error || "The car you are looking for does not exist."}
           </p>
 
           <Link
@@ -95,7 +174,7 @@ function CarDetails() {
           <div className="car-image-container">
 
             <img
-              src={car.image}
+              src={getCarImage(car.image)}
               alt={`${car.brand} ${car.model}`}
               className="car-details-image"
             />
@@ -454,36 +533,35 @@ function CarDetails() {
 
 
         {/* Similar Cars */}
-        <section className="similar-cars">
+        {similarCars.length > 0 && (
 
-          <div className="section-heading">
+          <section className="similar-cars">
 
-            <span>
-              YOU MAY ALSO LIKE
-            </span>
+            <div className="section-heading">
 
-            <h2>
-              Similar Cars
-            </h2>
+              <span>
+                YOU MAY ALSO LIKE
+              </span>
 
-          </div>
+              <h2>
+                Similar Cars
+              </h2>
+
+            </div>
 
 
-          <div className="similar-cars-grid">
+            <div className="similar-cars-grid">
 
-            {cars
-              .filter((item) => item.id !== car.id)
-              .slice(0, 3)
-              .map((item) => (
+              {similarCars.map((item) => (
 
                 <Link
-                  key={item.id}
-                  to={`/car/${item.id}`}
+                  key={item._id}
+                  to={`/car/${item._id}`}
                   className="similar-car-card"
                 >
 
                   <img
-                    src={item.image}
+                    src={getCarImage(item.image)}
                     alt={`${item.brand} ${item.model}`}
                   />
 
@@ -507,9 +585,11 @@ function CarDetails() {
 
               ))}
 
-          </div>
+            </div>
 
-        </section>
+          </section>
+
+        )}
 
       </div>
 

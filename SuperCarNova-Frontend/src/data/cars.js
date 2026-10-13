@@ -1,6 +1,6 @@
-import carImage1 from "../assets/Images/40047.jpg";
-import carImage2 from "../assets/Images/hero-car.jpg";
-import carImage3 from "../assets/Images/hero-car1.jpg";
+import carImage1 from "../assets/Images/Car1.jpg";
+import carImage2 from "../assets/Images/Car2.jpg";
+import carImage3 from "../assets/Images/Car3.jpg";
 
 const cars = [
   {

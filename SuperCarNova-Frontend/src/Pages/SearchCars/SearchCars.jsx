@@ -6,8 +6,33 @@ import Footer from "../../components/Footer/Footer";
 import CarCard from "../../components/CarCard/CarCard";
 import FilterSidebar from "../../components/FilterSidebar/FilterSidebar";
 
+import { getCars } from "../../services/carsApi";
+import { getCarImage } from "../../utils/getCarImage";
+
 import "./SearchCars.css";
-import cars from "../../data/cars";
+
+// Cars shown on each page
+const CARS_PER_PAGE = 4;
+
+// Sort dropdown value -> sort option understood by the API
+const SORT_MAP = {
+  featured: "featured",
+  newest: "year-desc",
+  "price-low": "price-asc",
+  "price-high": "price-desc",
+  rating: "rating-desc",
+};
+
+const EMPTY_FILTERS = {
+  brand: [],
+  minPrice: "",
+  maxPrice: "",
+  year: "",
+  fuel: "",
+  transmission: "",
+  bodyType: "",
+  rating: "",
+};
 
 function SearchCars() {
   // ==========================================
@@ -21,44 +46,8 @@ function SearchCars() {
   // FILTER STATE
   // ==========================================
 
-  const [filters, setFilters] = useState({
-    brand: [],
-    minPrice: "",
-    maxPrice: "",
-    year: "",
-    fuel: "",
-    transmission: "",
-    bodyType: "",
-    rating: "",
-  });
-  const saveSearchToDatabase = async () => {
-  try {
-    const response = await fetch("http://localhost:5000/api/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        brand: filters.brand.join(", "),
-        model: searchTerm,
-        minPrice: filters.minPrice || null,
-        maxPrice: filters.maxPrice || null,
-        fuelType: filters.fuel || "",
-        transmission: filters.transmission || "",
-      }),
-    });
+  const [filters, setFilters] = useState(EMPTY_FILTERS);
 
-      const data = await response.json();
-
-      if (response.ok) {
-      console.log("Search saved successfully:", data);
-     } else {
-      console.error("Failed to save search:", data.message);
-     }
-     } catch (error) {
-    console.error("Search database error:", error);
-     }
-    };
 
   // ==========================================
   // SORT STATE
@@ -73,7 +62,15 @@ function SearchCars() {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const carsPerPage = 4;
+
+  // ==========================================
+  // DATA STATE (comes from the database)
+  // ==========================================
+
+  const [cars, setCars] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
 
   // ==========================================
@@ -86,123 +83,68 @@ function SearchCars() {
 
 
   // ==========================================
-  // FILTER CARS
+  // LOAD CARS FROM THE API
+  // Waits 300ms after the last change, so typing
+  // does not send a request for every keystroke.
   // ==========================================
 
-  const filteredCars = cars.filter((car) => {
-    // Search
-    const search = searchTerm.toLowerCase().trim();
+  useEffect(() => {
+    let ignore = false;
 
-    const matchesSearch =
-      !search ||
-      car.brand.toLowerCase().includes(search) ||
-      car.model.toLowerCase().includes(search);
+    const timer = setTimeout(async () => {
+      setLoading(true);
+      setError("");
 
+      try {
+        const response = await getCars({
+          search: searchTerm.trim(),
+          brand: filters.brand.join(","),
+          minPrice: filters.minPrice,
+          maxPrice: filters.maxPrice,
+          minYear: filters.year,
+          maxYear: filters.year,
+          fuel: filters.fuel,
+          transmission: filters.transmission,
+          bodyType: filters.bodyType,
+          minRating: filters.rating,
+          sort: SORT_MAP[sortOption] || "featured",
+          page: currentPage,
+          limit: CARS_PER_PAGE,
+        });
 
-    // Brand
-    const matchesBrand =
-      filters.brand.length === 0 ||
-      filters.brand.includes(car.brand);
+        if (!ignore) {
+          setCars(response.data);
+          setTotalPages(response.pages);
+        }
+      } catch (err) {
+        if (!ignore) {
+          setCars([]);
+          setTotalPages(0);
+          setError(err.message);
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    }, 300);
 
-
-    // Minimum Price
-    const matchesMinPrice =
-      !filters.minPrice ||
-      car.price >= Number(filters.minPrice);
-
-
-    // Maximum Price
-    const matchesMaxPrice =
-      !filters.maxPrice ||
-      car.price <= Number(filters.maxPrice);
-
-
-    // Year
-    const matchesYear =
-      !filters.year ||
-      car.year === Number(filters.year);
-
-
-    // Fuel Type
-    const matchesFuel =
-      !filters.fuel ||
-      car.fuel === filters.fuel;
-
-
-    // Transmission
-    const matchesTransmission =
-      !filters.transmission ||
-      car.transmission === filters.transmission;
-
-
-    // Body Type
-    const matchesBodyType =
-      !filters.bodyType ||
-      car.bodyType === filters.bodyType;
-
-
-    // Rating
-    const matchesRating =
-      !filters.rating ||
-      car.rating >= Number(filters.rating);
-
-
-    // Final filtering result
-    return (
-      matchesSearch &&
-      matchesBrand &&
-      matchesMinPrice &&
-      matchesMaxPrice &&
-      matchesYear &&
-      matchesFuel &&
-      matchesTransmission &&
-      matchesBodyType &&
-      matchesRating
-    );
-  });
+    // Cancels the old request when something changes again
+    return () => {
+      ignore = true;
+      clearTimeout(timer);
+    };
+  }, [searchTerm, filters, sortOption, currentPage]);
 
 
   // ==========================================
-  // SORT CARS
+  // SEARCH BUTTON / ENTER KEY
+  // (results already update as you type)
   // ==========================================
 
-  const sortedCars = [...filteredCars].sort((a, b) => {
-    switch (sortOption) {
-      case "newest":
-        return b.year - a.year;
-
-      case "price-low":
-        return a.price - b.price;
-
-      case "price-high":
-        return b.price - a.price;
-
-      case "rating":
-        return b.rating - a.rating;
-
-      case "featured":
-      default:
-        return a.id - b.id;
-    }
-  });
-
-
-  // ==========================================
-  // PAGINATION
-  // ==========================================
-
-  const totalPages = Math.ceil(
-    sortedCars.length / carsPerPage
-  );
-
-  const startIndex =
-    (currentPage - 1) * carsPerPage;
-
-  const endIndex =
-    startIndex + carsPerPage;
-
-  const currentCars =
-    sortedCars.slice(startIndex, endIndex);
+  const handleSearch = () => {
+    setCurrentPage(1);
+  };
 
 
   // ==========================================
@@ -210,16 +152,7 @@ function SearchCars() {
   // ==========================================
 
   const handleClearFilters = () => {
-    setFilters({
-      brand: [],
-      minPrice: "",
-      maxPrice: "",
-      year: "",
-      fuel: "",
-      transmission: "",
-      bodyType: "",
-      rating: "",
-    });
+    setFilters(EMPTY_FILTERS);
   };
 
 
@@ -261,7 +194,7 @@ function SearchCars() {
           <SearchBar
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
-            onSearch={saveSearchToDatabase}
+            onSearch={handleSearch}
           />
 
         </div>
@@ -368,18 +301,40 @@ function SearchCars() {
 
             <div className="cars-grid">
 
-              {currentCars.length > 0 ? (
+              {/* Error */}
+              {error && (
 
-                currentCars.map((car) => (
+                <div className="no-results">
 
-                  <CarCard
-                    key={car.id}
-                    car={car}
-                  />
+                  <h3>
+                    Something Went Wrong
+                  </h3>
 
-                ))
+                  <p>
+                    {error}
+                  </p>
 
-              ) : (
+                </div>
+
+              )}
+
+
+              {/* Loading (first load) */}
+              {!error && loading && cars.length === 0 && (
+
+                <div className="no-results">
+
+                  <h3>
+                    Loading Cars...
+                  </h3>
+
+                </div>
+
+              )}
+
+
+              {/* No results */}
+              {!error && !loading && cars.length === 0 && (
 
                 <div className="no-results">
 
@@ -395,6 +350,24 @@ function SearchCars() {
                 </div>
 
               )}
+
+
+              {/* Cars
+                  id and image are converted so CarCard works
+                  without any changes: id -> database _id,
+                  image -> the real image from src/assets/Images */}
+              {!error && cars.map((car) => (
+
+                <CarCard
+                  key={car._id}
+                  car={{
+                    ...car,
+                    id: car._id,
+                    image: getCarImage(car.image),
+                  }}
+                />
+
+              ))}
 
             </div>
 
