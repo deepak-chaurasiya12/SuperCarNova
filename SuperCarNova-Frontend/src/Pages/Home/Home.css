@@ -1,3 +1,7 @@
+/* =========================================
+   HERO SECTION
+   ========================================= */
+
 .hero {
     width: 100%;
     height: 100vh;
@@ -14,7 +18,7 @@
 .overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,.45);
+    background: rgba(0, 0, 0, .45);
 }
 
 .hero-content {
@@ -35,11 +39,170 @@
 }
 
 .hero-btn {
+    display: inline-block;
     margin-top: 40px;
     padding: 18px 45px;
     background: #29d69c;
+    color: #111;
+    text-decoration: none;
     border: none;
     cursor: pointer;
     font-size: 18px;
     font-weight: 600;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.hero-btn:hover {
+    background: #20b383;
+    transform: translateY(-3px);
+}
+
+
+/* =========================================
+   FEATURED CARS SECTION
+   ========================================= */
+
+.featured-cars {
+    padding: 80px 8%;
+    background: #f8f9fb;
+}
+
+.featured-heading {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.featured-heading span {
+    color: #20b383;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+.featured-heading h2 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin-top: 8px;
+    color: #111;
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.featured-card {
+    background: #fff;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-bottom: 4px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.featured-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+    border-color: #29d69c;
+}
+
+.featured-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.featured-card-info {
+    padding: 22px;
+}
+
+.featured-brand {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.featured-card-info h3 {
+    margin: 6px 0 14px;
+    font-size: 1.3rem;
+    color: #111;
+}
+
+.featured-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.featured-meta span {
+    background: #e9faf4;
+    color: #158a66;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.featured-price {
+    font-size: 1.3rem;
+    color: #111;
+}
+
+.featured-footer {
+    text-align: center;
+    margin-top: 45px;
+}
+
+.view-all-btn {
+    display: inline-block;
+    padding: 16px 40px;
+    background: #29d69c;
+    color: #111;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.view-all-btn:hover {
+    background: #20b383;
+    transform: translateY(-3px);
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 992px) {
+    .hero-content h1 {
+        font-size: 3.5rem;
+    }
+
+    .featured-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-content h1 {
+        font-size: 2.4rem;
+    }
+
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+
+    .featured-cars {
+        padding: 60px 5%;
+    }
+
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
 }
