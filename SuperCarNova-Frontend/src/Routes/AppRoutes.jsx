@@ -1,7 +1,8 @@
+
 import {
   BrowserRouter,
   Routes,
-  Route
+  Route,
 } from "react-router-dom";
 
 import Home from "../pages/Home/Home";
@@ -9,13 +10,12 @@ import SearchCars from "../pages/SearchCars/SearchCars";
 import CarDetails from "../pages/CarDetails/CarDetails";
 import About from "../pages/About/About";
 import Contact from "../Pages/Contact/ContactUs";
+import Wishlist from "../Pages/Wishlist";
 
-function AppRoutes (){
+function AppRoutes() {
   return (
     <BrowserRouter>
-
       <Routes>
-
         <Route
           path="/"
           element={<Home />}
@@ -30,6 +30,7 @@ function AppRoutes (){
           path="/car-details/:id"
           element={<CarDetails />}
         />
+
         <Route
           path="/about"
           element={<About />}
@@ -40,10 +41,13 @@ function AppRoutes (){
           element={<Contact />}
         />
 
+        <Route
+          path="/wishlist"
+          element={<Wishlist />}
+        />
       </Routes>
-
     </BrowserRouter>
   );
-};
+}
 
 export default AppRoutes;

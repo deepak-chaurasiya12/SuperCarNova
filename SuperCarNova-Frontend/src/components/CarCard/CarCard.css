@@ -325,3 +325,15 @@
   }
 
 }
+.favorite-btn.active {
+  color: #e63946;
+}
+
+.favorite-btn {
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+}

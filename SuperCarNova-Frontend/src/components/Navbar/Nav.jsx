@@ -46,6 +46,12 @@ const Navbar = () => {
               Contact
             </Link>
           </li>
+          
+          <li>
+            <Link to="/wishlist">
+             ❤️ Wishlist
+           </Link>
+          </li>
 
         </ul>
       </nav>
