@@ -99,23 +99,4 @@ module.exports = [
       "The iconic rear-engine sports car, equally at home on the road and on the track.",
     image: "Car1.jpg"
   },
-
-  {
-    brand: "Range Rover",
-    model: "Sport",
-    year: 2023,
-    price: 17500000,
-    rating: 4.6,
-    reviews: 65,
-    mileage: 22000,
-    fuel: "Diesel",
-    transmission: "Automatic",
-    engine: "2997 cc",
-    power: "346 HP",
-    bodyType: "SUV",
-    color: "Black",
-    description:
-      "A luxury performance SUV with a refined cabin, strong diesel engine and go-anywhere ability.",
-    image: "Car3.jpg"
-  }
 ];

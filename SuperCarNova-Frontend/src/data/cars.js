@@ -110,6 +110,24 @@ const cars = [
     color: "Black",
     image: carImage3,
   },
+
+   {
+    id: 6,
+    brand: "Range Rover",
+    model: "Sport",
+    year: 2023,
+    price: 17500000,
+    rating: 4.6,
+    reviews: 65,
+    mileage: 22000,
+    fuel: "Diesel",
+    transmission: "Automatic",
+    engine: "2997 cc",
+    power: "346 HP",
+    bodyType: "SUV",
+    color: "Black",
+    image: carImage3,
+  },
 ];
 
 export default cars;
