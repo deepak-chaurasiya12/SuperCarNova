@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import {
   FaStar,
@@ -7,41 +6,19 @@ import {
   FaCogs,
   FaHeart,
 } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useWishlist, toggleWishlist } from "../../utils/wishlist";
 import "./CarCard.css";
 
 const CarCard = ({ car }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  // Shared wishlist: updates here, in the Navbar and on the Wishlist page together
+  const wishlist = useWishlist();
 
-  useEffect(() => {
-    const savedCars = JSON.parse(
-      localStorage.getItem("wishlist") || "[]"
-    );
+  const isFavorite = wishlist.some(
+    (savedCar) => String(savedCar.id) === String(car.id)
+  );
 
-    setIsFavorite(
-      savedCars.some(
-        (savedCar) => String(savedCar.id) === String(car.id)
-      )
-    );
-  }, [car.id]);
-
-  const toggleWishlist = () => {
-    const savedCars = JSON.parse(
-      localStorage.getItem("wishlist") || "[]"
-    );
-
-    const alreadySaved = savedCars.some(
-      (savedCar) => String(savedCar.id) === String(car.id)
-    );
-
-    const updatedCars = alreadySaved
-      ? savedCars.filter(
-          (savedCar) => String(savedCar.id) !== String(car.id)
-        )
-      : [...savedCars, car];
-
-    localStorage.setItem("wishlist", JSON.stringify(updatedCars));
-    setIsFavorite(!alreadySaved);
+  const handleWishlistClick = () => {
+    toggleWishlist(car);
   };
 
   return (
@@ -58,7 +35,7 @@ const CarCard = ({ car }) => {
           className={`favorite-btn ${isFavorite ? "active" : ""}`}
           aria-label={isFavorite ? "Remove from wishlist" : "Add to wishlist"}
           aria-pressed={isFavorite}
-          onClick={toggleWishlist}
+          onClick={handleWishlistClick}
         >
           <FaHeart />
         </button>

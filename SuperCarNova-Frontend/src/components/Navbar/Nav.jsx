@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import { FaCarSide } from "react-icons/fa";
 import SearchBar from "../SearchBar/SearchBar";
+import { useWishlist } from "../../utils/wishlist";
 
 import "./Nav.css";
 
 const Navbar = () => {
+  // Re-renders automatically whenever a car is added to or removed from the wishlist
+  const wishlist = useWishlist();
+  const wishlistCount = wishlist.length;
+
   return (
     <header className="navbar">
 
@@ -49,8 +54,13 @@ const Navbar = () => {
           
           <li>
             <Link to="/wishlist">
-             ❤️ Wishlist
-           </Link>
+              ❤️ Wishlist
+              {wishlistCount > 0 && (
+                <span className="wishlist-badge">
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
           </li>
 
         </ul>

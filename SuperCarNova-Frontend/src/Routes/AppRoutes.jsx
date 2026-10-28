@@ -10,7 +10,7 @@ import SearchCars from "../pages/SearchCars/SearchCars";
 import CarDetails from "../pages/CarDetails/CarDetails";
 import About from "../pages/About/About";
 import Contact from "../Pages/Contact/ContactUs";
-import Wishlist from "../Pages/Wishlist";
+import Wishlist from "../pages/Wishlist/Wishlist";
 
 function AppRoutes() {
   return (

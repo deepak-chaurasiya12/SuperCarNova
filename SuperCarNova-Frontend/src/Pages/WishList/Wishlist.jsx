@@ -1,28 +1,11 @@
-
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaHeart, FaTrash } from "react-icons/fa";
+import { useWishlist, removeFromWishlist } from "../../utils/wishlist";
 import "./Wishlist.css";
 
 const Wishlist = () => {
-  const [cars, setCars] = useState([]);
-
-  const loadWishlist = () => {
-    const savedCars = JSON.parse(
-      localStorage.getItem("wishlist") || "[]"
-    );
-    setCars(savedCars);
-  };
-
-  useEffect(() => {
-    loadWishlist();
-  }, []);
-
-  const removeCar = (id) => {
-    const updatedCars = cars.filter((car) => car.id !== id);
-    localStorage.setItem("wishlist", JSON.stringify(updatedCars));
-    setCars(updatedCars);
-  };
+  // Always up to date, and shared with the Navbar and the car cards
+  const cars = useWishlist();
 
   return (
     <div className="wishlist-page">
@@ -61,7 +44,7 @@ const Wishlist = () => {
 
                   <button
                     type="button"
-                    onClick={() => removeCar(car.id)}
+                    onClick={() => removeFromWishlist(car.id)}
                     aria-label="Remove from wishlist"
                   >
                     <FaTrash /> Remove

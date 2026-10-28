@@ -88,50 +88,18 @@ nav ul li a:hover{
 
 }
 
-.login-btn{
-
-    padding:10px 22px;
-
-    background:transparent;
-
-    border:1px solid white;
-
-    color:rgb(41, 28, 28);
-
-    cursor:pointer;
-
-    transition:.3s;
-
-}
-
-.login-btn:hover{
-
-    background:white;
-
-    color:#ebc314;
-
-}
-
-.register-btn{
-
-    padding:10px 24px;
-
-    border:none;
-
-    background:#fbbf24;
-
-    color:#111;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-}
-
-.register-btn:hover{
-
-    background:#ffd95a;
-
+.wishlist-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: #29d69c;
+  color: #111;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
 }
